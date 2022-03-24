@@ -7,6 +7,10 @@ plugins {
 group = "net.azisaba"
 version = "0.0.1"
 
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+}
+
 subprojects {
     group = parent!!.version
     version = parent!!.version
