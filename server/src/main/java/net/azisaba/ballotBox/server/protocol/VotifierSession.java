@@ -39,14 +39,16 @@ public class VotifierSession {
   }
 
   public enum ProtocolVersion {
-    UNKNOWN("unknown"),
-    ONE("protocol v1"),
-    TWO("protocol v2"),
-    TEST("test");
+    UNKNOWN(-1, "unknown"),
+    ONE(1, "protocol v1"),
+    TWO(2, "protocol v2"),
+    TEST(-1, "test");
 
+    public final int id;
     public final String humanReadable;
 
-    ProtocolVersion(String hr) {
+    ProtocolVersion(int id, String hr) {
+      this.id = id;
       this.humanReadable = hr;
     }
   }

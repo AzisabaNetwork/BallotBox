@@ -105,6 +105,10 @@ public class ServerConfigInstance {
 
   public static KeyPair keyPair = null; // v1
 
+  // (Builtin) Options:
+  // - net.azisaba.ballotBox.server.util.voteHandlers.VoteHandlerNoop
+  // - net.azisaba.ballotBox.server.util.voteHandlers.VoteHandlerLog
+  // - net.azisaba.ballotBox.server.util.voteHandlers.VoteHandlerMariaDB
   @Language(value = "JAVA", prefix = "import ", suffix = ";")
   @SerializedName("voteHandler")
   public static String voteHandler =
