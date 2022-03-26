@@ -1,3 +1,45 @@
+val log4jVersion = "2.17.2"
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
-    implementation(project(":common"))
+    api(project(":common"))
+
+    // netty
+    api("io.netty:netty-all:4.1.75.Final")
+
+    // logging
+    api("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    api("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    api("org.apache.logging.log4j:log4j-slf4j18-impl:$log4jVersion")
+    api("org.slf4j:slf4j-api:1.8.0-beta4")
+
+    // config
+    api("org.yaml:snakeyaml:1.30")
+}
+
+tasks {
+    withType<ProcessResources> {
+        from(sourceSets.main.get().resources.srcDirs) {
+            include("**")
+            val tokenReplacementMap = mapOf(
+                    "VERSION" to project.version,
+                    "NAME" to project.parent!!.name,
+            )
+            filter<org.apache.tools.ant.filters.ReplaceTokens>("tokens" to tokenReplacementMap)
+        }
+        filteringCharset = "UTF-8"
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        from(project.parent!!.projectDir) { include("LICENSE") }
+    }
+
+    shadowJar {
+        manifest {
+            attributes("Main-Class" to "net.azisaba.ballotBox.server.Main")
+        }
+
+        archiveFileName.set("BallotBox-server-${project.version}.jar")
+    }
 }

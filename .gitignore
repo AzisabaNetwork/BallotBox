@@ -5,3 +5,6 @@ build/
 *.ipr
 *.iws
 *.log
+config.yml
+rsa/
+logs/
