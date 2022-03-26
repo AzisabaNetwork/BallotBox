@@ -20,6 +20,10 @@ subprojects {
         plugin("java-library")
         plugin("com.github.johnrengelman.shadow")
     }
+
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    }
 }
 
 tasks {
