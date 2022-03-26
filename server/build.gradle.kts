@@ -40,7 +40,7 @@ tasks {
 
     shadowJar {
         manifest {
-            attributes("Main-Class" to "net.azisaba.ballotBox.server.Main")
+            attributes("Main-Class" to "net.azisaba.ballotbox.server.Main")
         }
 
         archiveFileName.set("BallotBox-server-${project.version}.jar")
