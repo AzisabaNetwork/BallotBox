@@ -1,11 +1,7 @@
 package net.azisaba.ballotbox.server.connection;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelException;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -15,8 +11,6 @@ import net.azisaba.ballotbox.server.config.ServerConfigInstance;
 import net.azisaba.ballotbox.server.protocol.VoteInboundHandler;
 import net.azisaba.ballotbox.server.protocol.VotifierGreetingHandler;
 import net.azisaba.ballotbox.server.protocol.VotifierProtocolDifferentiator;
-import net.azisaba.ballotbox.server.protocol.VotifierSession;
-import net.azisaba.ballotbox.server.protocol.VotifierSession;
 import net.azisaba.ballotbox.server.protocol.VotifierSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,7 +54,6 @@ public class ConnectionListener {
     }
   }
 
-  @SuppressWarnings("Convert2Diamond")
   public void start() {
     VoteInboundHandler voteInboundHandler =
         new VoteInboundHandler(ServerConfigInstance.createVoteHandler());

@@ -3,10 +3,6 @@ package net.azisaba.ballotbox.server.util.voteHandlers;
 import com.vexsoftware.votifier.model.Vote;
 import net.azisaba.ballotbox.server.protocol.VotifierSession;
 import net.azisaba.ballotbox.server.util.VoteHandler;
-import net.azisaba.ballotbox.server.protocol.VotifierSession;
-import net.azisaba.ballotbox.server.util.VoteHandler;
-import net.azisaba.ballotbox.server.protocol.VotifierSession;
-import net.azisaba.ballotbox.server.util.VoteHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class VoteHandlerNoop implements VoteHandler {
