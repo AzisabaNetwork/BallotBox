@@ -5,14 +5,6 @@ import net.azisaba.ballotbox.server.protocol.VotifierSession;
 import net.azisaba.ballotbox.server.util.SQLThrowableConsumer;
 import net.azisaba.ballotbox.server.yaml.YamlConfiguration;
 import net.azisaba.ballotbox.server.yaml.YamlObject;
-import net.azisaba.ballotbox.server.protocol.VotifierSession;
-import net.azisaba.ballotbox.server.util.SQLThrowableConsumer;
-import net.azisaba.ballotbox.server.yaml.YamlConfiguration;
-import net.azisaba.ballotbox.server.yaml.YamlObject;
-import net.azisaba.ballotbox.server.protocol.VotifierSession;
-import net.azisaba.ballotbox.server.util.SQLThrowableConsumer;
-import net.azisaba.ballotbox.server.yaml.YamlConfiguration;
-import net.azisaba.ballotbox.server.yaml.YamlObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +32,7 @@ public class VoteHandlerMariaDB extends VoteHandlerLog {
             Statement statement = connection.createStatement();
             statement.executeUpdate(
                 "CREATE TABLE IF NOT EXISTS `votes` ("
-                    + "`id` INT NOT NULL AUTO_INCREMENT,"
+                    + "`id` BIGINT NOT NULL AUTO_INCREMENT,"
                     + "`username` VARCHAR(32) NOT NULL,"
                     + "`service` VARCHAR(128) NOT NULL,"
                     + "`address` VARCHAR(128) NOT NULL,"
