@@ -36,7 +36,8 @@ public class VoteHandlerMariaDB extends VoteHandlerLog {
                     + "`username` VARCHAR(32) NOT NULL,"
                     + "`service` VARCHAR(128) NOT NULL,"
                     + "`address` VARCHAR(128) NOT NULL,"
-                    + "`timestamp` VARCHAR(256) NOT NULL,"
+                    + "`timestamp` BIGINT NOT NULL,"
+                    + "`timestamp_serverlist` VARCHAR(256) NOT NULL,"
                     + "`version` INT NOT NULL DEFAULT -1,"
                     + "PRIMARY KEY (`id`)"
                     + ")");
@@ -104,12 +105,13 @@ public class VoteHandlerMariaDB extends VoteHandlerLog {
           connection -> {
             PreparedStatement statement =
                 connection.prepareStatement(
-                    "INSERT INTO `votes` (`username`, `service`, `address`, `timestamp`, `version`) VALUES (?, ?, ?, ?, ?)");
+                    "INSERT INTO `votes` (`username`, `service`, `address`, `timestamp`, `timestamp_serverlist`, `version`) VALUES (?, ?, ?, ?, ?, ?)");
             statement.setString(1, vote.getUsername());
             statement.setString(2, vote.getServiceName());
             statement.setString(3, remoteAddress);
-            statement.setString(4, vote.getTimeStamp());
-            statement.setInt(5, version.id);
+            statement.setLong(4, System.currentTimeMillis());
+            statement.setString(5, vote.getTimeStamp());
+            statement.setInt(6, version.id);
             statement.execute();
           });
     } catch (SQLException e) {
