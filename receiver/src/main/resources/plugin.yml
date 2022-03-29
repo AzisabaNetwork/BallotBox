@@ -1,0 +1,5 @@
+name: Votifier
+version: @VERSION@
+main: net.azisaba.ballotbox.receiver.BallotBoxReceiver
+author: "Azisaba Network"
+website: "https://github.com/AzisabaNetwork/BallotBox"
