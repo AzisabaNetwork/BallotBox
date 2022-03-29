@@ -89,7 +89,6 @@ public class MySQLVoteFetcher implements VoteFetcher {
         }
 
         statement.close();
-        resultSet.close();
 
         return votes.iterator();
       }
