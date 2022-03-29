@@ -1,13 +1,10 @@
 package net.azisaba.ballotbox.receiver.config;
 
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.stream.Collectors;
+import java.nio.channels.Channels;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.azisaba.ballotbox.receiver.BallotBoxReceiver;
@@ -74,19 +71,11 @@ public class BallotBoxReceiverConfig {
       return;
     }
 
-    InputStream is = getClass().getClassLoader().getResourceAsStream(file.getName());
-    if (is == null) {
-      throw new IllegalStateException("Failed to load config.yml from resource.");
+    try (InputStream is = getClass().getClassLoader().getResourceAsStream(file.getName());
+        FileOutputStream out = new FileOutputStream(file)) {
+      if (is != null) {
+        out.getChannel().transferFrom(Channels.newChannel(is), 0, Long.MAX_VALUE);
+      }
     }
-    BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-    Files.createDirectories(file.getParentFile().toPath());
-
-    byte[] byteStr =
-        reader
-            .lines()
-            .collect(Collectors.joining(System.lineSeparator()))
-            .getBytes(StandardCharsets.UTF_8);
-
-    Files.write(file.toPath(), byteStr);
   }
 }

@@ -1,8 +1,9 @@
 package net.azisaba.ballotbox.receiver.fetcher.impl;
 
 import com.vexsoftware.votifier.model.Vote;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,9 +31,7 @@ public class MySQLVoteFetcher implements VoteFetcher {
   @Setter
   private Consumer<Long> saveCurrentIndexFunction;
 
-  @Getter
-  private boolean connected = false;
-  private Connection connection;
+  private HikariDataSource hikariDataSource;
 
   private final ReentrantLock lock = new ReentrantLock();
 
@@ -44,15 +43,13 @@ public class MySQLVoteFetcher implements VoteFetcher {
   }
 
   public boolean connect() {
-    try {
-      connection = DriverManager.getConnection(
-          "jdbc:mysql://" + sqlConnectionInfo.getHostname() + ":" + sqlConnectionInfo.getPort()
-              + "/" + sqlConnectionInfo.getDatabase(),
-          sqlConnectionInfo.getUsername(), sqlConnectionInfo.getPassword());
-      connected = true;
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    HikariConfig config = new HikariConfig();
+    config.setJdbcUrl(
+        "jdbc:mysql://" + sqlConnectionInfo.getHostname() + ":" + sqlConnectionInfo.getPort()
+            + "/" + sqlConnectionInfo.getDatabase());
+    config.setUsername(sqlConnectionInfo.getUsername());
+    config.setPassword(sqlConnectionInfo.getPassword());
+    hikariDataSource = new HikariDataSource(config);
 
     return isConnected();
   }
@@ -64,16 +61,15 @@ public class MySQLVoteFetcher implements VoteFetcher {
     }
 
     lock.lock();
-
     try {
-      try {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, voteFetchOption.getExpireDays() * -1);
+      Calendar cal = Calendar.getInstance();
+      cal.add(Calendar.DATE, voteFetchOption.getExpireDays() * -1);
 
+      try (Connection connection = hikariDataSource.getConnection()) {
         PreparedStatement statement = connection.prepareStatement(
             "SELECT * FROM `votes` WHERE id > ? AND timestamp > ? ORDER BY `id` ASC LIMIT ?");
         statement.setLong(1, currentIndex);
-        statement.setLong(2, cal.getTime().getTime() / 1000L);
+        statement.setLong(2, cal.getTime().getTime());
         statement.setInt(3, voteFetchOption.getMaxVotesPerInterval());
 
         ResultSet resultSet = statement.executeQuery();
@@ -92,10 +88,13 @@ public class MySQLVoteFetcher implements VoteFetcher {
           currentIndex = Long.max(currentIndex, id);
         }
 
+        statement.close();
+        resultSet.close();
+
         return votes.iterator();
-      } catch (SQLException e) {
-        e.printStackTrace();
       }
+    } catch (SQLException e) {
+      e.printStackTrace();
     } finally {
       lock.unlock();
     }
@@ -105,16 +104,16 @@ public class MySQLVoteFetcher implements VoteFetcher {
 
   @Override
   public void onClose() {
-    if (connection != null) {
-      try {
-        connection.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+    if (hikariDataSource != null && hikariDataSource.isRunning()) {
+      hikariDataSource.close();
     }
 
     if (saveCurrentIndexFunction != null) {
       saveCurrentIndexFunction.accept(currentIndex);
     }
+  }
+
+  public boolean isConnected() {
+    return hikariDataSource.isRunning();
   }
 }

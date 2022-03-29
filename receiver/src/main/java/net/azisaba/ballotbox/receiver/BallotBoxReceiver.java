@@ -37,12 +37,14 @@ public class BallotBoxReceiver extends JavaPlugin {
 
   @Override
   public void onDisable() {
-    voteFetcher.onClose();
+    if (voteFetcher != null) {
+      voteFetcher.onClose();
+    }
     Bukkit.getLogger().info(getName() + " disabled.");
   }
 
   public final File getBallotBoxDataFolder() {
-    return new File(getDataFolder().getParentFile(), "BallotBoxReceiver");
+    return new File("./plugins/BallotBoxReceiver");
   }
 
   private boolean setVoteFetcher(long index) {
