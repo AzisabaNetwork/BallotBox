@@ -9,7 +9,7 @@ dependencies {
     // gson
     api(project(":common"))
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
-    api("com.zaxxer:HikariCP:4.0.3") // use version 4.0.3 for Java8 support
+    api("com.zaxxer:HikariCP:5.0.1") // use version 4.0.3 for Java8 support
     compileOnly("org.projectlombok:lombok:1.18.22")
     annotationProcessor("org.projectlombok:lombok:1.18.22")
 }
