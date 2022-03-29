@@ -80,7 +80,7 @@ public class MySQLVoteFetcher implements VoteFetcher {
           String serviceName = resultSet.getString("service");
           String username = resultSet.getString("username");
           String address = resultSet.getString("address");
-          String timeStamp = resultSet.getString("timestamp");
+          String timeStamp = resultSet.getString("timestamp_serverlist");
 
           Vote vote = new Vote(serviceName, username, address, timeStamp);
           votes.add(vote);
