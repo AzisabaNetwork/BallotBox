@@ -8,7 +8,7 @@ dependencies {
     api(project(":common"))
 
     // netty
-    api("io.netty:netty-all:4.1.76.Final")
+    api("io.netty:netty-all:4.1.77.Final")
 
     // logging
     api("org.apache.logging.log4j:log4j-api:$log4jVersion")
