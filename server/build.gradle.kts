@@ -20,7 +20,7 @@ dependencies {
     api("org.yaml:snakeyaml:1.32")
 
     // mariadb-client
-    api("org.mariadb.jdbc:mariadb-java-client:3.0.7")
+    api("org.mariadb.jdbc:mariadb-java-client:3.0.8")
 }
 
 tasks {
