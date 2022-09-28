@@ -14,7 +14,7 @@ dependencies {
     api("org.apache.logging.log4j:log4j-api:$log4jVersion")
     api("org.apache.logging.log4j:log4j-core:$log4jVersion")
     api("org.apache.logging.log4j:log4j-slf4j18-impl:$log4jVersion")
-    api("org.slf4j:slf4j-api:2.0.2")
+    api("org.slf4j:slf4j-api:2.0.3")
 
     // config
     api("org.yaml:snakeyaml:1.32")
