@@ -9,7 +9,7 @@ group = "net.azisaba.ballotbox"
 version = "1.0.1"
 
 subprojects {
-    group = parent!!.version
+    group = parent!!.group
     version = parent!!.version
 
     apply {
