@@ -1,4 +1,4 @@
-val log4jVersion = "2.19.0"
+val log4jVersion = "2.23.1"
 
 repositories {
     mavenCentral()
