@@ -17,7 +17,7 @@ dependencies {
     api("org.slf4j:slf4j-api:2.0.6")
 
     // config
-    api("org.yaml:snakeyaml:1.33")
+    api("org.yaml:snakeyaml:2.3")
 
     // mariadb-client
     api("org.mariadb.jdbc:mariadb-java-client:3.1.1")
